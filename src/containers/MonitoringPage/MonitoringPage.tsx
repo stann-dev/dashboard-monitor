@@ -3,26 +3,38 @@ import { getAppList } from '../../api/applications';
 import { FlexGallery } from '../../components/FlexGallery/FlexGallery';
 import { ApplicationsList, ShortApplicationInfo } from '../../types/applicationsTypes';
 import styles from './styles.module.scss';
+import { FlexGalleryItem } from '../../components/FlexGalleryItem/FlexGalleryItem';
+import { SingleApp } from './SingleApp/SingleApp';
+import { Title } from '../../components/Title/Title';
+import { AppDetails } from './AppDetails/AppDetails';
 
 export const MonitoringPage: React.FC = () => {
   const [appList, setAppList] = useState<ApplicationsList>();
-  const [monitored, setMonitored] = useState<ApplicationsList>([]);
+  const [selectedAppId, setSelectedAppId] = useState<ShortApplicationInfo['id'] | null>();
 
   const updateAppList = async () => {
-    const { data } = await getAppList();
-    setAppList(data);
-  };
-  const isMonitored = (singleApp: ShortApplicationInfo) => {
-    return monitored.some((monitored) => monitored.id === singleApp.id);
-  }
-  const toggleMonitoredApp = (singleApp: ShortApplicationInfo) => {
-    if(isMonitored(singleApp)){
-      const filtered = monitored.filter((monitored) => monitored.id !== singleApp.id);
-      setMonitored(filtered);
-    } else {
-      setMonitored([...monitored, singleApp]);
+    try {
+      const { data } = await getAppList();
+      data.forEach((el) => ({
+        ...el,
+        monitored: false,
+      }));
+      setAppList(data);
+    } catch (err) {
+      // Some err handling, best if query handling separated into hook
     }
-  }
+  };
+
+  const toggleMonitoredApp = (appId: ShortApplicationInfo['id']) => {
+    if (appList) {
+      const tempAppList = [...appList];
+      const appIndex = tempAppList.findIndex((el) => (el.id === appId));
+      tempAppList[appIndex].monitored = !tempAppList[appIndex].monitored;
+
+      tempAppList.sort((a) => (a.monitored ? -1 : 1));
+      setAppList(tempAppList);
+    }
+  };
 
   useEffect(() => {
     updateAppList();
@@ -30,10 +42,20 @@ export const MonitoringPage: React.FC = () => {
 
   return (
     <div className={styles.base}>
-      <h1>Currently monitoring</h1>
-      {monitored && <FlexGallery data={monitored} handleMonitoringClick={toggleMonitoredApp} />}
-      <h1>All apps</h1>
-      {appList && <FlexGallery data={appList} handleMonitoringClick={toggleMonitoredApp} />}
+      <Title>App monitoring</Title>
+      <AppDetails id={selectedAppId} />
+      <FlexGallery>
+        {/* Code below could be exported into separated component, in example MonitoringList */}
+        {appList && appList.map((singleApp) => (
+          <FlexGalleryItem key={singleApp.id}>
+            <SingleApp
+              data={singleApp}
+              toggleMonitoredApp={toggleMonitoredApp}
+              setSelectedAppId={setSelectedAppId}
+            />
+          </FlexGalleryItem>
+        ))}
+      </FlexGallery>
     </div>
   );
 };

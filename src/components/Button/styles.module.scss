@@ -1,0 +1,13 @@
+@import "./../../const/colors.module";
+
+.base{
+    background: $white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: 2px solid $lightGray;
+
+    &:hover{
+        border-color: $black;
+    }
+}

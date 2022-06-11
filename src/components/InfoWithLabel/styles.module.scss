@@ -1,0 +1,11 @@
+@import "./../../const/font.module";
+.base{
+    .label{
+        font-size: $fontSmall;
+    }
+
+    .children{
+        font-size: $fontRegular;
+        padding: 5px 0;
+    }
+}
