@@ -1,0 +1,16 @@
+@import "./../../../const/colors.module";
+
+.base{
+    background: $white;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 20px;
+
+    .adminDetails, .appDetails {
+        display: flex;
+
+        & > * {
+            margin-right: 20px;
+        }
+    }
+}

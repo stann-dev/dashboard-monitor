@@ -1,25 +1,16 @@
-import { ApplicationsList, ShowDetails, ToggleMonitored } from '../../types/applicationsTypes';
 import styles from './styles.module.scss';
-import { FlexGalleryItem } from '../FlexGalleryItem/FlexGalleryItem';
+import { ReactNode } from 'react';
 
 type Props = {
-  data: ApplicationsList;
-  handleMonitoringClick: ToggleMonitored;
-  // handleDetailsClick: ShowDetails;
+  children: ReactNode;
 }
+
 export const FlexGallery: React.FC<Props> = ({
-  data,
-  handleMonitoringClick,
+  children,
 }) => {
   return (
     <div className={styles.base}>
-      {data.map((singleCompany) => (
-        <FlexGalleryItem
-          key={singleCompany.id}
-          data={singleCompany}
-          handleMonitoringClick={handleMonitoringClick}
-        />
-      ))}
+      {children}
     </div>
   );
 };

@@ -1,0 +1,28 @@
+@import "./../../../const/colors.module";
+@import "./../../../const/font.module";
+
+.base{
+    background: $white;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 12px 16px;
+    border: 2px solid $white;
+
+    &.monitored {
+        border-color: $black;
+    }
+
+    .name {
+        font-weight: 600;
+    }
+    .company {
+        font-size: $fontSmall;
+    }
+    .buttons{
+        margin-top: 10px;
+
+        & > * {
+            margin-right: 10px;
+        }
+    }
+}

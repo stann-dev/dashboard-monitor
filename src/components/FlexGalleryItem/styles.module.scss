@@ -2,16 +2,5 @@
 .base{
     display: flex;
     flex-direction: column;
-    flex: 1;
-    background: $lightBlue;
-    margin: 5px;
-    padding: 20px;
-    border: 1px solid $blue;
-    border-radius: 5px;
-}
-.title{
-    font-weight: 600;
-}
-.desc{
-    font-size: 10px;
+    flex: 1 0 21%;
 }

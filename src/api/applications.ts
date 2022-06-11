@@ -6,5 +6,5 @@ export const getAppList: GetAppList = async () => {
 }
 
 export const getAppDetails: GetAppDetails = async ({ id }) => {
-  return await axiosInstance.get(`/list/${id}`);
+  return await axiosInstance.get(`/details/${id}`);
 }
